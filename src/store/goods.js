@@ -17,6 +17,10 @@ export default {
         commit('pushGoodsMsg', res)
       }
     },
+    async addGood({ commit }, good) {
+      gds.addGood(good)
+      console.log(commit)
+    },
   },
   getters: {},
 }

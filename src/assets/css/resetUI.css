@@ -2,3 +2,11 @@
 .el-textarea__inner {
   width: 300px;
 }
+
+.addGoods .el-form-item__content {
+  display: flex;
+}
+
+.addGoods .el-radio-group {
+  width: 140px;
+}
