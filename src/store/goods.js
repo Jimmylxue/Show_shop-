@@ -3,10 +3,14 @@ import gds from '../service/goods'
 export default {
   state: {
     goodsMsg: [],
+    addState: null,
   },
   mutations: {
     pushGoodsMsg(state, msg) {
       state.goodsMsg = msg
+    },
+    changeAddState(state, msg) {
+      state.addState = msg
     },
   },
   actions: {
@@ -18,8 +22,13 @@ export default {
       }
     },
     async addGood({ commit }, good) {
-      gds.addGood(good)
-      console.log(commit)
+      let { code } = await (await gds.addGood(good)).data
+      if (code === 1) {
+        commit('changeAddState', true)
+        return code
+      }
+      commit('changeAddState', false)
+      return code
     },
   },
   getters: {},

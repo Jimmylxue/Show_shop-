@@ -202,15 +202,24 @@ export default {
     },
 
     // 提交
-    add(good) {
+    async add(good) {
       this.$refs[good].validate(valid => {
         if (valid) {
           if (this.good.imgsrc !== '' && this.good.imgname !== '') {
-            this.addGood(this.good)
-            this.$message({
-              showClose: true,
-              message: '商品添加成功',
-              type: 'success'
+            this.addGood(this.good).then(code => {
+              // console.log(code)
+              if (code === 1) {
+                this.$message({
+                  showClose: true,
+                  message: '商品添加成功',
+                  type: 'success'
+                })
+                return
+              }
+              this.$message({
+                message: '未知原因添加失败',
+                type: 'warning'
+              })
             })
             return
           }
