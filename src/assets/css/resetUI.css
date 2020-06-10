@@ -10,3 +10,7 @@
 .addGoods .el-radio-group {
   width: 140px;
 }
+
+.stock .el-progress__text {
+  opacity: 0;
+}

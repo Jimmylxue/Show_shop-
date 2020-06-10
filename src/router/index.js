@@ -8,6 +8,8 @@ import admin from '../views/user/admin'
 import main from '../views/main'
 import allGood from '../views/good/allgood'
 import addGood from '../views/good/addGood'
+import stock from '../views/good/stock'
+import list from '../views/order/orderList'
 
 Vue.use(VueRouter)
 
@@ -28,6 +30,8 @@ const routes = [
         path: '/addGood',
         component: addGood,
       },
+      { path: '/stock', component: stock },
+      { path: '/list', component: list },
     ],
   },
 ]
