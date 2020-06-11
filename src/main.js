@@ -13,6 +13,9 @@ import '@/assets/css/resetUI.css'
 
 import interceptors from './interceptors'
 
+import api from '@/service/api'
+Vue.prototype.$api = api
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

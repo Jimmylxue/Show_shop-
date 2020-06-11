@@ -4,6 +4,7 @@ export default {
   state: {
     goodsMsg: [],
     addState: null,
+    countMsg: [],
   },
   mutations: {
     pushGoodsMsg(state, msg) {
@@ -11,6 +12,9 @@ export default {
     },
     changeAddState(state, msg) {
       state.addState = msg
+    },
+    pushCountMsg(state, msg) {
+      state.countMsg = msg
     },
   },
   actions: {
@@ -29,6 +33,10 @@ export default {
       }
       commit('changeAddState', false)
       return code
+    },
+    async selctCount({ commit }) {
+      let res = await (await gds.getCount()).data
+      commit('pushCountMsg', res)
     },
   },
   getters: {},

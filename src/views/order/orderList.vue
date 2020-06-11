@@ -54,14 +54,23 @@
         <el-table-column label="下单时间" prop="time"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope>
-            <el-button type="primary" @click="dialogVisible = true" size="mini" icon="el-icon-edit"></el-button>
-            <el-button type="success" size="mini" icon="el-icon-location"></el-button>
+            <el-button
+              type="primary"
+              @click="dialogVisible = true"
+              size="mini"
+              icon="el-icon-edit"
+            ></el-button>
+            <el-button
+              type="success"
+              size="mini"
+              icon="el-icon-location"
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <!-- 修改地址对话框 -->
-      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
         <!-- <el-form>
           <el-form-item label="省市区/县">
             <el-input>
@@ -72,7 +81,9 @@
         </el-form>-->
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="dialogVisible = false"
+            >确 定</el-button
+          >
         </span>
       </el-dialog>
     </el-card>
@@ -95,7 +106,7 @@ export default {
           payment: true,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301'
+          address: '福建省福州市晋安区双翔新村3座301',
         },
         {
           id: '_jimmylovexuexue15120',
@@ -108,7 +119,7 @@ export default {
           payment: false,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301'
+          address: '福建省福州市晋安区双翔新村3座301',
         },
         {
           id: '_jimmylovexuexue15120',
@@ -121,7 +132,7 @@ export default {
           payment: true,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301'
+          address: '福建省福州市晋安区双翔新村3座301',
         },
         {
           id: '_jimmylovexuexue15120',
@@ -134,7 +145,7 @@ export default {
           payment: true,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301'
+          address: '福建省福州市晋安区双翔新村3座301',
         },
         {
           id: '_jimmylovexuexue15120',
@@ -147,10 +158,10 @@ export default {
           payment: true,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301'
-        }
+          address: '福建省福州市晋安区双翔新村3座301',
+        },
       ],
-      dialogVisible: false
+      dialogVisible: false,
     }
   },
   methods: {
@@ -160,8 +171,8 @@ export default {
           this.dialogVisible = false
         })
         .catch(_ => {})
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -7,4 +7,10 @@ export default {
   async addGood(good) {
     return await axios.post('/api/admin/good/add', good)
   },
+  async getCount() {
+    return await axios.get('/api/admin/good/count')
+  },
+  async clearStock(params) {
+    return await axios.post('/api/admin/good/clearCount', { id: params })
+  },
 }

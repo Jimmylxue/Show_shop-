@@ -6,19 +6,29 @@
       <el-breadcrumb-item>库存信息</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <el-table :data="coundata" border stripe>
-        <el-table-column type="index"></el-table-column>
+      <el-table :data="stock" border stripe>
+        <el-table-column label="商品编号" type="index" width="90">
+          <template slot-scope="scope">{{ scope.row.goodid }}</template>
+        </el-table-column>
+        <el-table-column label="商品图片" width="120" align="center">
+          <template slot-scope="scope">
+            <img :src="scope.row.goodimg" width="100px" height="100px" alt />
+          </template>
+        </el-table-column>
         <el-table-column label="商品名称" prop="goodname"></el-table-column>
         <el-table-column label="商品规格" prop="capacity"></el-table-column>
         <el-table-column label="商品类型" prop="type"></el-table-column>
         <el-table-column label="销售情况" prop="sale">
           <template slot-scope="scope">
             <div class="cont">
-              <span>{{scope.row.sale}}</span>
+              <span>{{ scope.row.sale }}</span>
               <el-progress
                 type="circle"
-                :percentage="(scope.row.sale/scope.row.count)*100"
-                color="#13CE66"
+                :percentage="
+                  scope.row.count === 0
+                    ? 100
+                    : (scope.row.sale / scope.row.count) * 100
+                "
               ></el-progress>
             </div>
           </template>
@@ -26,49 +36,118 @@
         <el-table-column label="剩余库存" prop="count">
           <template slot-scope="scope">
             <div class="cont">
-              <span>{{scope.row.count-scope.row.sale}}</span>
+              <span>{{
+                scope.row.count === 0 ? 0 : scope.row.count - scope.row.sale
+              }}</span>
               <el-progress
                 type="circle"
-                :percentage="(scope.row.count - scope.row.sale)/scope.row.count*100"
+                :percentage="
+                  scope.row.count === 0
+                    ? 0
+                    : ((scope.row.count - scope.row.sale) / scope.row.count) *
+                      100
+                "
                 color="#13CE66"
               ></el-progress>
             </div>
           </template>
         </el-table-column>
+        <el-table-column label="操作" width="240">
+          <template slot-scope="scope">
+            <el-button
+              type="success"
+              size="mini"
+              icon="el-icon-edit"
+              @click="dialogVisible = true"
+              >修改库存</el-button
+            >
+            <el-button
+              type="danger"
+              size="mini"
+              @click="clearStock(scope.row.goodid)"
+              icon="el-icon-delete"
+              >清空库存</el-button
+            >
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+      <div class="change">
+        <span>修改库存数量</span>
+        <el-input-number
+          v-model="num"
+          @change="handleChange"
+          :min="1"
+          :max="10"
+          label="描述文字"
+        ></el-input-number>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      coundata: [
-        {
-          goodname: '小米10 Pro',
-          capacity: '12+256',
-          type: '全新',
-          sale: 50,
-          count: 100
-        },
-        {
-          goodname: '苹果AirPods Pro',
-          capacity: 'AirPod+保护壳',
-          type: '全新',
-          sale: 18,
-          count: 40
-        },
-        {
-          goodname: 'Redmi Note 8 Pro',
-          capacity: '8+128',
-          type: '全新',
-          sale: 85,
-          count: 100
-        }
-      ]
+      stock: [],
+      dialogVisible: false,
+      num: 1,
     }
-  }
+  },
+  computed: {
+    ...mapState({ countMsg: state => state.goods.countMsg }),
+  },
+  async mounted() {
+    this.selctCount()
+    let res = await (await this.$api.good.getCount()).data
+    this.stock = res
+  },
+  methods: {
+    ...mapActions(['selctCount']),
+    async clearStock(id) {
+      this.$confirm('此操作将清空改商品的库存，确定继续吗？')
+        .then(_ => {
+          this.$api.good.clearStock(id).then(res => {
+            if ((res.data.code = 1)) {
+              this.$message({
+                message: '删除成功',
+                type: 'success',
+              })
+              this.selctCount()
+              return
+            }
+            this.$message({
+              message: '清空失败~',
+              type: 'warning',
+            })
+          })
+        })
+        .catch(_ => {})
+
+      // let code = await (await this.$api.good.clearStock(id)).data.code
+      // if (code === 1) {
+      //   this.$message({
+      //     message: '删除成功',
+      //     type: 'success',
+      //   })
+      //   return
+      // }
+      // this.$message({
+      //   message: '清空失败~',
+      //   type: 'warning',
+      // })
+    },
+    handleChange() {},
+  },
 }
 </script>
 
@@ -97,6 +176,18 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+}
+
+.change {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  span {
+    margin-bottom: 20px;
   }
 }
 </style>
