@@ -14,7 +14,7 @@
         </el-col>
       </el-row>
       <!-- 订单列表 -->
-      <el-table :data="lista" border stripe>
+      <el-table v-loading="loading" :data="lista" border stripe>
         <el-table-column type="expand">
           <template slot-scope="scope">
             <el-form label-position="left" block class="demo-table-expand">
@@ -59,12 +59,13 @@
               @click="dialogVisible = true"
               size="mini"
               icon="el-icon-edit"
-            ></el-button>
+            >修改地址</el-button>
             <el-button
               type="success"
               size="mini"
+              @click="sendGood = true"
               icon="el-icon-location"
-            ></el-button>
+            >发货</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -81,9 +82,35 @@
         </el-form>-->
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 确认发货对话框 -->
+      <el-dialog title="发货信息" :visible.sync="sendGood" width="60%">
+        <div class="Detail">
+          <h3>请按照下列商品列表配货</h3>
+          <p>订单清单</p>
+          <div class="msgcontain">
+            <div>
+              <img src="@/assets/img/xiaomi.jpg" width="200px" height="200px" alt />
+            </div>
+            <div>
+              <p>【限时享24期免息向往的生活同款】小米10Pro5g手机骁龙865处理器5G手机学生拍照小米官方旗舰店官网正品米10</p>
+              <p>内存12+256</p>
+            </div>
+            <div>
+              <span>¥6999</span> ×1
+            </div>
+          </div>
+          <div class="usermsg">
+            <h3>请按照下列信息发货</h3>
+            <p>地址:福建省泉州市鲤城区泉州师范学院软件学院</p>
+            <p>收货人:叶思豪</p>
+            <p>电话号码:19905076109</p>
+          </div>
+        </div>
+        <span slot="footer" class="dialog-footer send">
+          <el-button type="primary" @click="send" plain>确认发货并提醒用户</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -106,7 +133,7 @@ export default {
           payment: true,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301',
+          address: '福建省福州市晋安区双翔新村3座301'
         },
         {
           id: '_jimmylovexuexue15120',
@@ -117,9 +144,9 @@ export default {
           count: 1,
           price: 520,
           payment: false,
-          send: true,
+          send: false,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301',
+          address: '福建省福州市晋安区双翔新村3座301'
         },
         {
           id: '_jimmylovexuexue15120',
@@ -132,7 +159,20 @@ export default {
           payment: true,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301',
+          address: '福建省福州市晋安区双翔新村3座301'
+        },
+        {
+          id: '_jimmylovexuexue15120',
+          persion: 'Jimmy',
+          phone: '19905076109',
+          good:
+            '【限时享24期免息向往的生活同款】小米10Pro5g手机骁龙865处理器5G手机学生拍照小米官方旗舰店官网正品米10',
+          count: 1,
+          price: 520,
+          payment: true,
+          send: false,
+          time: '2017-11-07 20:08:46',
+          address: '福建省福州市晋安区双翔新村3座301'
         },
         {
           id: '_jimmylovexuexue15120',
@@ -145,24 +185,18 @@ export default {
           payment: true,
           send: true,
           time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301',
-        },
-        {
-          id: '_jimmylovexuexue15120',
-          persion: 'Jimmy',
-          phone: '19905076109',
-          good:
-            '【限时享24期免息向往的生活同款】小米10Pro5g手机骁龙865处理器5G手机学生拍照小米官方旗舰店官网正品米10',
-          count: 1,
-          price: 520,
-          payment: true,
-          send: true,
-          time: '2017-11-07 20:08:46',
-          address: '福建省福州市晋安区双翔新村3座301',
-        },
+          address: '福建省福州市晋安区双翔新村3座301'
+        }
       ],
+      // 编辑flag
       dialogVisible: false,
+      // 发货flag
+      sendGood: false,
+      loading: true
     }
+  },
+  mounted() {
+    this.loadFun()
   },
   methods: {
     handleClose() {
@@ -172,7 +206,23 @@ export default {
         })
         .catch(_ => {})
     },
-  },
+    send() {
+      this.sendGood = false
+      this.$message({
+        message: '发货成功~',
+        type: 'success'
+      })
+    },
+    loadFun() {
+      this.loading = true
+      let interval = setInterval(() => {
+        if (this.lista.length !== 0) {
+          this.loading = false
+          clearInterval(interval)
+        }
+      }, 1000)
+    }
+  }
 }
 </script>
 
@@ -185,5 +235,49 @@ export default {
   .el-table {
     margin-top: 15px;
   }
+}
+
+.Detail {
+  font-size: 16px;
+  & > p {
+    margin-top: 20px;
+    border-bottom: 2px solid rgb(188, 188, 188);
+    padding-bottom: 10px;
+  }
+  .msgcontain {
+    display: flex;
+    border-bottom: 2px solid rgb(240, 240, 240);
+    & > div:nth-child(2) {
+      padding-top: 40px;
+      & > p:nth-child(2) {
+        padding-top: 30px;
+        font-weight: bold;
+      }
+    }
+    & > div:nth-child(3) {
+      width: 250px;
+      text-align: center;
+      padding-top: 40px;
+      span {
+        color: rgb(254, 62, 68);
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+  }
+  .usermsg {
+    margin-top: 50px;
+    & > h3 {
+      margin-bottom: 15px;
+    }
+    & > p {
+      margin-top: 5px;
+    }
+  }
+}
+.send {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
 }
 </style>

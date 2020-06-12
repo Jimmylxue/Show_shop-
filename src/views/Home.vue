@@ -128,7 +128,7 @@ export default {
               {
                 id: 4001,
                 authName: '订单列表',
-                path: 'list'
+                path: '/list'
               }
             ]
           }

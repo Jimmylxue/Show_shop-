@@ -13,4 +13,8 @@ export default {
   async clearStock(params) {
     return await axios.post('/api/admin/good/clearCount', { id: params })
   },
+  async editStockCount(id, count) {
+    console.log(id, count)
+    return await axios.post('/api/admin/good/editCount', { id, count })
+  },
 }

@@ -6,7 +6,14 @@
       <el-breadcrumb-item>库存信息</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <el-table :data="stock" border stripe>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-input placeholder="请输入商品ID">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-table v-loading="loading" :data="stock" border stripe>
         <el-table-column label="商品编号" type="index" width="90">
           <template slot-scope="scope">{{ scope.row.goodid }}</template>
         </el-table-column>
@@ -36,9 +43,11 @@
         <el-table-column label="剩余库存" prop="count">
           <template slot-scope="scope">
             <div class="cont">
-              <span>{{
+              <span>
+                {{
                 scope.row.count === 0 ? 0 : scope.row.count - scope.row.sale
-              }}</span>
+                }}
+              </span>
               <el-progress
                 type="circle"
                 :percentage="
@@ -47,7 +56,7 @@
                     : ((scope.row.count - scope.row.sale) / scope.row.count) *
                       100
                 "
-                color="#13CE66"
+                :color="penterColor(scope.row.count,scope.row.sale)"
               ></el-progress>
             </div>
           </template>
@@ -58,36 +67,27 @@
               type="success"
               size="mini"
               icon="el-icon-edit"
-              @click="dialogVisible = true"
-              >修改库存</el-button
-            >
+              @click="toEdit(scope.row.goodid)"
+            >修改库存</el-button>
             <el-button
               type="danger"
               size="mini"
               @click="clearStock(scope.row.goodid)"
               icon="el-icon-delete"
-              >清空库存</el-button
-            >
+            >清空库存</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="修改库存" :visible.sync="dialogVisible" width="30%">
       <div class="change">
-        <span>修改库存数量</span>
-        <el-input-number
-          v-model="num"
-          @change="handleChange"
-          :min="1"
-          :max="10"
-          label="描述文字"
-        ></el-input-number>
+        <span>{{nowname}}</span>
+        <span>目前个数：{{nowcount}}</span>
+        <el-input-number v-model="nowcount" @change="handleChange" :min="1" label="描述文字"></el-input-number>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="Edit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -101,18 +101,27 @@ export default {
       stock: [],
       dialogVisible: false,
       num: 1,
+      wannaEditCountId: '123456',
+      nowname: '',
+      nowcount: 50,
+      beforEdit: 0,
+      loading: true
     }
   },
   computed: {
-    ...mapState({ countMsg: state => state.goods.countMsg }),
+    ...mapState({ countMsg: state => state.goods.countMsg })
   },
   async mounted() {
-    this.selctCount()
-    let res = await (await this.$api.good.getCount()).data
-    this.stock = res
+    this.getAllCount()
   },
   methods: {
     ...mapActions(['selctCount']),
+    async getAllCount() {
+      this.loadFun()
+      this.selctCount()
+      let res = await (await this.$api.good.getCount()).data
+      this.stock = res
+    },
     async clearStock(id) {
       this.$confirm('此操作将清空改商品的库存，确定继续吗？')
         .then(_ => {
@@ -120,14 +129,14 @@ export default {
             if ((res.data.code = 1)) {
               this.$message({
                 message: '删除成功',
-                type: 'success',
+                type: 'success'
               })
-              this.selctCount()
+              this.getAllCount()
               return
             }
             this.$message({
               message: '清空失败~',
-              type: 'warning',
+              type: 'warning'
             })
           })
         })
@@ -147,7 +156,66 @@ export default {
       // })
     },
     handleChange() {},
-  },
+    penterColor(count, sale) {
+      let conent = count === 0 ? 0 : ((count - sale) / count) * 100
+      if (conent >= 50) {
+        return '#13CE66'
+      } else if (conent < 50 && conent >= 25) {
+        return '#E6A23C'
+      } else {
+        return '#FF4949'
+      }
+    },
+    toEdit(id) {
+      this.wannaEditCountId = id
+      this.nowname = this.stock.filter(item => item.goodid == id)[0].goodname
+      this.beforEdit =
+        this.stock.filter(item => item.goodid == id)[0].count -
+        this.stock.filter(item => item.goodid == id)[0].sale
+      this.nowcount =
+        this.stock.filter(item => item.goodid == id)[0].count -
+        this.stock.filter(item => item.goodid == id)[0].sale
+      this.dialogVisible = true
+    },
+    async Edit() {
+      if (this.nowcount !== this.beforEdit) {
+        let res = await this.$api.good.editStockCount(
+          this.wannaEditCountId,
+          this.nowcount
+        )
+        if (res.data.code === 1) {
+          this.$message({
+            showClose: true,
+            message: '更新成功',
+            type: 'success'
+          })
+          this.dialogVisible = false
+          this.getAllCount()
+          return
+        }
+        this.$message({
+          message: '更新失败~',
+          type: 'warning'
+        })
+        return
+      }
+      this.$message({
+        showClose: true,
+        message: '未作出修改',
+        type: 'warning'
+      })
+      this.dialogVisible = false
+    },
+    loadFun() {
+      this.loading = true
+      let interval = setInterval(() => {
+        if (this.stock.length !== 0) {
+          this.loading = false
+          clearInterval(interval)
+        }
+      }, 1000)
+    }
+  }
 }
 </script>
 
