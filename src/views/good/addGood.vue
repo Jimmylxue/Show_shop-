@@ -36,26 +36,29 @@
         <el-form-item label="商品价格" prop="price">
           <el-input v-model="good.price"></el-input>
         </el-form-item>
-        <el-form-item label="所属分类" prop="classify">
-          <el-select @change="selChassify" v-model="good.classify" placeholder="请选择">
-            <el-option
-              v-for="item in classOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="所属品牌" prop="brand">
-          <el-select @change="selBrand" v-model="good.brand" placeholder="请选择">
-            <el-option
-              v-for="item in brandOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
+        <div class="spans">
+          <el-form-item label="所属分类" prop="classify">
+            <el-select @change="selChassify" v-model="good.classify" placeholder="请选择">
+              <el-option
+                v-for="item in classOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="所属品牌" prop="brand">
+            <el-select @change="selBrand" v-model="good.brand" placeholder="请选择">
+              <el-option
+                v-for="item in brandOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+
         <el-form-item label="商品规格" prop="capacity">
           <el-input v-model="good.capacity"></el-input>
         </el-form-item>
@@ -64,7 +67,7 @@
             <el-radio-button label="是"></el-radio-button>
             <el-radio-button label="否"></el-radio-button>
           </el-radio-group>
-          <el-input v-show="radio1==='否'" v-model="good.freight" placeholder="请输入具体的邮费"></el-input>
+          <el-input v-show="radio1==='否'" v-model="good.freight" label="请输入具体的邮费"></el-input>
         </el-form-item>
         <el-form-item label="二手产品">
           <el-radio-group v-model="good.type">
@@ -87,16 +90,15 @@ export default {
       // 包邮的flag
       radio1: '是',
       good: {
-        name: '小米AI音箱',
-        desc:
-          '说出小爱同学，就能唤醒它，让它给你播音乐、给宝宝讲故事、叫你起床、为你选择去公司最快捷的交通方式，甚至还能控制家里的智能设备。不仅如此，你还可以训练它，让它越来越聪明，越来越懂你。',
-        price: 229,
+        name: '',
+        desc: '',
+        price: null,
         classify: '',
         brand: '',
         // 规格
-        capacity: '官方标配',
+        capacity: '',
         // 是否二手
-        type: '是',
+        type: '',
         // 邮费
         freight: 0,
         imgname: '',
@@ -105,7 +107,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' },
-          { min: 4, max: 12, message: '长度在 4 到 12 个字符', trigger: 'blur' }
+          { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
         ],
         desc: [
           { required: true, message: '请输入商品描述', trigger: 'blur' },
@@ -126,7 +128,7 @@ export default {
         ],
         capacity: [
           { required: true, message: '请输入商品规格', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 3, max: 20, message: '规格不正确', trigger: 'blur' }
         ]
       },
 
@@ -142,6 +144,14 @@ export default {
         {
           value: 3,
           label: '耳机'
+        },
+        {
+          value: 4,
+          label: '电视'
+        },
+        {
+          value: 5,
+          label: '手表/手环'
         }
       ],
       brandOptions: [
@@ -214,6 +224,7 @@ export default {
                   message: '商品添加成功',
                   type: 'success'
                 })
+                this.good = {}
                 return
               }
               this.$message({
@@ -277,5 +288,9 @@ export default {
 }
 .add {
   width: 200px;
+}
+
+.spans {
+  display: flex;
 }
 </style>

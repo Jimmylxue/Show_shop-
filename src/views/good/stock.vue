@@ -79,6 +79,7 @@
         </el-table-column>
       </el-table>
     </el-card>
+    <!-- 修改库存 -->
     <el-dialog title="修改库存" :visible.sync="dialogVisible" width="30%">
       <div class="change">
         <span>{{nowname}}</span>

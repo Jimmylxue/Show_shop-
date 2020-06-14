@@ -10,7 +10,7 @@
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input placeholder="请输入内容">
+          <el-input v-model="search" placeholder="请输入用户ID">
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
@@ -154,9 +154,14 @@ export default {
           { required: true, message: '手机号不能为空', trigger: 'blur' }
           // { validator: checkPhone, trigger: 'blur' },
         ]
-      }
+      },
+      search: ''
     }
   },
+  mounted() {
+    this.getUsers()
+  },
+  watch: {},
   methods: {
     ...mapActions(['getUser', 'update', 'deleteUser', 'addUser']),
     // 关闭弹窗
@@ -218,9 +223,6 @@ export default {
         this.$message.error('删除失败~')
       }
     }
-  },
-  mounted() {
-    this.getUsers()
   }
 }
 </script>

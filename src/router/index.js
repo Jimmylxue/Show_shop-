@@ -10,6 +10,7 @@ import allGood from '../views/good/allgood'
 import addGood from '../views/good/addGood'
 import stock from '../views/good/stock'
 import list from '../views/order/orderList'
+import classify from '../views/good/classify'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,7 @@ const routes = [
       },
       { path: '/stock', component: stock },
       { path: '/list', component: list },
+      { path: '/classify', component: classify },
     ],
   },
 ]

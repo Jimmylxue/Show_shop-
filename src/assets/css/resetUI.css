@@ -11,6 +11,14 @@
   width: 140px;
 }
 
+.addGoods .spans .el-input__inner {
+  width: 110px;
+}
+
 .stock .el-progress__text {
   opacity: 0;
+}
+
+.classify .block {
+  margin-top: 20px;
 }
