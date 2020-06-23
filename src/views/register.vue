@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     toRegister() {
-      this.$http.post('/api/register', this.ruleForm).then((response) => {
+      this.$http.post('/api/register', this.ruleForm).then(response => {
         this.returnmsg = response.data
         if (this.returnmsg === 1) {
           this.succeed()
@@ -104,13 +104,10 @@ export default {
       })
     },
     succeed() {
-      this.$message({
-        message: '恭喜你，注册成功！可以区登录啦~',
-        type: 'success',
-      })
+      this.$swal('哟吼~', '快去登录吧~', 'success')
     },
     error() {
-      this.$message.error(this.returnmsg)
+      this.$swal('哎哟~', '失败了~', 'warning')
     },
   },
 }

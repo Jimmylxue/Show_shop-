@@ -15,7 +15,11 @@
           :rules="login_rules"
         >
           <el-form-item prop="userName">
-            <el-input v-model="userinfo.userName" prefix-icon="el-icon-user" placeholder="userName"></el-input>
+            <el-input
+              v-model="userinfo.userName"
+              prefix-icon="el-icon-user"
+              placeholder="userName"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="passWord">
             <el-input
@@ -29,7 +33,7 @@
         <!--按钮 -->
         <el-row class="btns">
           <a class="register" href="/register">没有账号? 注册一个吧~</a>
-          <el-button type="primary" @click="$router.push('/home')">登录</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
           <el-button @click="reset" type="info">重置</el-button>
         </el-row>
       </div>
@@ -46,7 +50,7 @@ export default {
       */
       userinfo: {
         userName: 'jimmy001',
-        passWord: 'yshzx171107.'
+        passWord: 'yshzx171107.',
       },
       login_rules: {
         /*
@@ -61,8 +65,8 @@ export default {
             min: 6,
             max: 12,
             message: '长度在 6 到 12 个字符',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         passWord: [
           { required: true, message: '请输入登录密码', trigger: 'blur' },
@@ -70,10 +74,10 @@ export default {
             min: 6,
             max: 15,
             message: '长度在 6 到 15 个字符',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   methods: {
@@ -82,32 +86,13 @@ export default {
       this.$refs.loginFormRef.resetFields()
     },
     login() {
-      this.$refs.loginFormRef.validate(valid => {
-        if (valid) {
-          this.$http.post('/api', this.userinfo).then(data => {
-            if (data.data === 1) {
-              this.$message({
-                message: '更新成功',
-                type: 'success'
-              })
-              /*  sessionStorage的有效期是一次会话，即关闭页面这个信息就会被删除，最适合记录登录信息 */
-              window.sessionStorage.setItem('token', 'succee')
-              /*  this.$router.push("路由地址")是手动动态的改变路由地址 */
-              this.$router.push('/home')
-            } else {
-              this.$message.error('账号或密码错误哦')
-              this.userinfo.passWord = ''
-            }
-          })
-        } else {
-          alert('格式错误')
-        }
-      })
+      this.$swal('哟吼~', '登录成功~', 'success')
+      this.$router.push('/home')
     },
     to() {
       this.$router.push('/register')
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -120,6 +105,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  width: 100%;
 }
 .login-box {
   width: 450px;

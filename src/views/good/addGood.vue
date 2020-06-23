@@ -8,7 +8,7 @@
     <el-card>
       <div class="imgs">
         <img
-          v-for="(item,index) in goodimg"
+          v-for="(item, index) in goodimg"
           :key="index"
           :src="item"
           ref="goodimg"
@@ -38,7 +38,11 @@
         </el-form-item>
         <div class="spans">
           <el-form-item label="所属分类" prop="classify">
-            <el-select @change="selChassify" v-model="good.classify" placeholder="请选择">
+            <el-select
+              @change="selChassify"
+              v-model="good.classify"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in classOptions"
                 :key="item.value"
@@ -48,7 +52,11 @@
             </el-select>
           </el-form-item>
           <el-form-item label="所属品牌" prop="brand">
-            <el-select @change="selBrand" v-model="good.brand" placeholder="请选择">
+            <el-select
+              @change="selBrand"
+              v-model="good.brand"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in brandOptions"
                 :key="item.value"
@@ -67,7 +75,11 @@
             <el-radio-button label="是"></el-radio-button>
             <el-radio-button label="否"></el-radio-button>
           </el-radio-group>
-          <el-input v-show="radio1==='否'" v-model="good.freight" label="请输入具体的邮费"></el-input>
+          <el-input
+            v-show="radio1 === '否'"
+            v-model="good.freight"
+            label="请输入具体的邮费"
+          ></el-input>
         </el-form-item>
         <el-form-item label="二手产品">
           <el-radio-group v-model="good.type">
@@ -75,7 +87,9 @@
             <el-radio-button label="否"></el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-button class="add" @click="add('good')" type="primary">立即添加</el-button>
+        <el-button class="add" @click="add('good')" type="primary"
+          >立即添加</el-button
+        >
       </el-form>
     </el-card>
   </div>
@@ -102,12 +116,17 @@ export default {
         // 邮费
         freight: 0,
         imgname: '',
-        imgsrc: ''
+        imgsrc: '',
       },
       rules: {
         name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
+          {
+            min: 4,
+            max: 20,
+            message: '长度在 4 到 20 个字符',
+            trigger: 'blur',
+          },
         ],
         desc: [
           { required: true, message: '请输入商品描述', trigger: 'blur' },
@@ -115,61 +134,61 @@ export default {
             min: 20,
             max: 300,
             message: '长度在 20 到 300 个字符',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         price: [{ required: true, message: '请输入商品价格', trigger: 'blur' }],
         classify: [
-          { required: true, message: '请选择商品分类', trigger: 'blur' }
+          { required: true, message: '请选择商品分类', trigger: 'blur' },
         ],
         brand: [
           { required: true, message: '请输入商品品牌', trigger: 'blur' },
-          { min: 2, max: 99, message: '请输入正确的品牌名称', trigger: 'blur' }
+          { min: 2, max: 99, message: '请输入正确的品牌名称', trigger: 'blur' },
         ],
         capacity: [
           { required: true, message: '请输入商品规格', trigger: 'blur' },
-          { min: 3, max: 20, message: '规格不正确', trigger: 'blur' }
-        ]
+          { min: 3, max: 20, message: '规格不正确', trigger: 'blur' },
+        ],
       },
 
       classOptions: [
         {
           value: 1,
-          label: '手机'
+          label: '手机',
         },
         {
           value: 2,
-          label: '电脑'
+          label: '电脑',
         },
         {
           value: 3,
-          label: '耳机'
+          label: '耳机',
         },
         {
           value: 4,
-          label: '电视'
+          label: '电视',
         },
         {
           value: 5,
-          label: '手表/手环'
-        }
+          label: '手表/手环',
+        },
       ],
       brandOptions: [
         {
           value: 1,
-          label: '华为'
+          label: '华为',
         },
         {
           value: 2,
-          label: '小米'
+          label: '小米',
         },
         {
           value: 3,
-          label: '苹果'
-        }
+          label: '苹果',
+        },
       ],
       goodimg: [],
-      lab: ''
+      lab: '',
     }
   },
   watch: {
@@ -178,7 +197,7 @@ export default {
         this.good.freight = 0
         return
       }
-    }
+    },
   },
   methods: {
     ...mapActions(['addGood']),
@@ -219,32 +238,22 @@ export default {
             this.addGood(this.good).then(code => {
               // console.log(code)
               if (code === 1) {
-                this.$message({
-                  showClose: true,
-                  message: '商品添加成功',
-                  type: 'success'
-                })
+                this.$swal('哟吼~', '添加成功~', 'success')
                 this.good = {}
                 return
               }
-              this.$message({
-                message: '未知原因添加失败',
-                type: 'warning'
-              })
+              this.$swal('哎哟~', '失败~', 'warning')
             })
             return
           }
-          this.$message({
-            message: '只有上传了图片，用户才能够更好的选购哦~',
-            type: 'warning'
-          })
+          this.$swal('哎哟~', '还要上传图片哦~', 'warning')
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

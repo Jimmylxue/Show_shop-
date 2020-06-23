@@ -18,8 +18,17 @@
         </el-select>
       </div>
       <el-table border stripe :data="entershow" style="width:100%">
-        <el-table-column label="商品ID" width="140" prop="goodid"></el-table-column>
-        <el-table-column label="商品图片" width="120" align="center" prop="goodimg">
+        <el-table-column
+          label="商品ID"
+          width="140"
+          prop="goodid"
+        ></el-table-column>
+        <el-table-column
+          label="商品图片"
+          width="120"
+          align="center"
+          prop="goodimg"
+        >
           <template slot-scope="scope">
             <img :src="scope.row.goodimg" width="100px" height="100px" alt />
           </template>
@@ -29,25 +38,30 @@
           <template slot-scope="scope">
             <div>
               <el-tag
-                :type="scope.row.tag==='recommand'?'success':'danger'"
+                :type="scope.row.tag === 'recommand' ? 'success' : 'danger'"
                 class="mytag"
-              >{{scope.row.tag}}</el-tag>
-              <span v-show="scope.row.tag==='recommand'">推荐区</span>
-              <span v-show="scope.row.tag==='discount '">闪购区</span>
+                >{{ scope.row.tag }}</el-tag
+              >
+              <span v-show="scope.row.tag === 'recommand'">推荐区</span>
+              <span v-show="scope.row.tag === 'discount '">闪购区</span>
             </div>
           </template>
         </el-table-column>
         <el-table-column label="现价" prop="nowPrice">
           <template slot-scope="scope">
-            <span v-show="scope.row.nowPrice===0">{{scope.row.price}}</span>
-            <span v-show="scope.row.nowPrice!=0">{{scope.row.nowPrice}}</span>
+            <span v-show="scope.row.nowPrice === 0">{{ scope.row.price }}</span>
+            <span v-show="scope.row.nowPrice != 0">{{
+              scope.row.nowPrice
+            }}</span>
           </template>
         </el-table-column>
         <el-table-column label="原价" prop="price"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <div>
-              <el-button @click="changeplate(scope.row)" type="primary">切换栏目</el-button>
+              <el-button @click="changeplate(scope.row)" type="primary"
+                >切换栏目</el-button
+              >
             </div>
           </template>
         </el-table-column>
@@ -79,7 +93,11 @@
           <el-form-item label="调整为">
             <br />
             <div class="side">
-              <el-select @change="changesex" v-model="values" placeholder="请选择">
+              <el-select
+                @change="changesex"
+                v-model="values"
+                placeholder="请选择"
+              >
                 <el-option
                   v-for="item in optionschange"
                   :key="item.value"
@@ -88,7 +106,7 @@
                 ></el-option>
               </el-select>
               <el-input
-                v-show="values==='选项2'"
+                v-show="values === '选项2'"
                 v-model="changplate.nowPrice"
                 placeholder="清输入打折后价格"
               ></el-input>
@@ -117,26 +135,26 @@ export default {
       options: [
         {
           value: '选项1',
-          label: 'recommand 推荐区'
+          label: 'recommand 推荐区',
         },
         {
           value: '选项2',
-          label: 'discount 闪购区'
-        }
+          label: 'discount 闪购区',
+        },
       ],
       optionschange: [
         {
           value: '选项1',
-          label: 'recommand 推荐区'
+          label: 'recommand 推荐区',
         },
         {
           value: '选项2',
-          label: 'discount 闪购区'
+          label: 'discount 闪购区',
         },
         {
           value: '选项3',
-          label: '请选择'
-        }
+          label: '请选择',
+        },
       ],
       values: '选项3',
       value: '选项1',
@@ -144,7 +162,7 @@ export default {
       // change
       dialogVisible: false,
       changesela: '',
-      changplate: {}
+      changplate: {},
     }
   },
   computed: {},
@@ -162,7 +180,7 @@ export default {
     },
     nowsel() {
       this.gain()
-    }
+    },
   },
   mounted() {
     this.getgood()
@@ -223,17 +241,14 @@ export default {
         this.changplate.price
       )
       if (res.data.code === 1) {
-        this.$message({
-          message: '栏目修改成功',
-          type: 'success'
-        })
+        this.$swal('哟吼~', '栏目添加成功~', 'success')
         location.reload()
         this.dialogVisible = false
         return
       }
-      this.$message.error('栏目修改失败')
-    }
-  }
+      this.$swal('哎哟~', '失败了~', 'warning')
+    },
+  },
 }
 </script>
 

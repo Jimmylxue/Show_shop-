@@ -41,14 +41,22 @@
         <el-table-column label="是否付款" prop="payState">
           <template slot-scope="scope">
             <!-- scopr是一个对象 也就是当前遍历的这个item行的对象 -->
-            <el-tag type="success" v-show="scope.row.payState===1">已付款</el-tag>
-            <el-tag type="danger" v-show="scope.row.payState===0">未付款</el-tag>
+            <el-tag type="success" v-show="scope.row.payState === 1"
+              >已付款</el-tag
+            >
+            <el-tag type="danger" v-show="scope.row.payState === 0"
+              >未付款</el-tag
+            >
           </template>
         </el-table-column>
         <el-table-column label="是否发货" prop="send">
           <template slot-scope="scope">
-            <el-tag type="success" v-show="scope.row.sendState===1">已发货</el-tag>
-            <el-tag type="danger" v-show="scope.row.sendState===0">未发货</el-tag>
+            <el-tag type="success" v-show="scope.row.sendState === 1"
+              >已发货</el-tag
+            >
+            <el-tag type="danger" v-show="scope.row.sendState === 0"
+              >未发货</el-tag
+            >
           </template>
         </el-table-column>
         <el-table-column label="下单时间" prop="payTime"></el-table-column>
@@ -59,13 +67,15 @@
               @click="tochange(scope.row.id)"
               size="mini"
               icon="el-icon-edit"
-            >修改地址</el-button>
+              >修改地址</el-button
+            >
             <el-button
               type="success"
               size="mini"
               @click="tosend(scope.row.id)"
               icon="el-icon-location"
-            >发货</el-button>
+              >发货</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -107,24 +117,26 @@
               <img :src="select.goodimg" width="200px" height="200px" alt />
             </div>
             <div>
-              <p>{{select.goodname}}</p>
-              <p>{{select.gooddesc}}</p>
-              <p>{{select.capacity}}</p>
+              <p>{{ select.goodname }}</p>
+              <p>{{ select.gooddesc }}</p>
+              <p>{{ select.capacity }}</p>
             </div>
             <div>
-              <span>{{select.money}}</span>
-              ×{{select.buycount}}
+              <span>{{ select.money }}</span>
+              ×{{ select.buycount }}
             </div>
           </div>
           <div class="usermsg">
             <h3>请按照下列信息发货</h3>
-            <p>地址:{{select.address}}</p>
-            <p>收货人:{{select.person}}</p>
-            <p>电话号码:{{select.phone}}</p>
+            <p>地址:{{ select.address }}</p>
+            <p>收货人:{{ select.person }}</p>
+            <p>电话号码:{{ select.phone }}</p>
           </div>
         </div>
         <span slot="footer" class="dialog-footer send">
-          <el-button type="primary" @click="send" plain>确认发货并提醒用户</el-button>
+          <el-button type="primary" @click="send" plain
+            >确认发货并提醒用户</el-button
+          >
         </span>
       </el-dialog>
     </el-card>
@@ -144,13 +156,13 @@ export default {
       loading: true,
       rules: {
         person: [
-          { required: true, message: '收件人不能为空', trigger: 'blur' }
+          { required: true, message: '收件人不能为空', trigger: 'blur' },
         ],
         address: [{ required: true, message: '地址不能为空', trigger: 'blur' }],
         phone: [
-          { required: true, message: '请输入正确的手机号', trigger: 'blur' }
-        ]
-      }
+          { required: true, message: '请输入正确的手机号', trigger: 'blur' },
+        ],
+      },
     }
   },
   mounted() {
@@ -175,10 +187,7 @@ export default {
     },
     send() {
       this.sendGood = false
-      this.$message({
-        message: '发货成功~',
-        type: 'success'
-      })
+      this.$swal('哟吼~', '发货成功~', 'success')
     },
     loadFun() {
       this.loading = true
@@ -199,23 +208,17 @@ export default {
         if (valid) {
           this.$api.order.changeMsg(this.select).then(res => {
             if (res.data.code === 1) {
-              this.$message({
-                message: '更新成功',
-                type: 'success'
-              })
+              this.$swal('哟吼~', '更新成功~', 'success')
               return
             }
-            this.$message.error('位置原因，更新失败')
+            this.$swal('哎哟~', '更新失败~', 'warning')
           })
           return
         }
-        this.$message({
-          message: '修改的信息不符合规范~',
-          type: 'warning'
-        })
+        this.$swal('哎哟~', '信息不符~', 'warning')
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

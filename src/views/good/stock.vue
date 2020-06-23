@@ -45,7 +45,7 @@
             <div class="cont">
               <span>
                 {{
-                scope.row.count === 0 ? 0 : scope.row.count - scope.row.sale
+                  scope.row.count === 0 ? 0 : scope.row.count - scope.row.sale
                 }}
               </span>
               <el-progress
@@ -56,7 +56,7 @@
                     : ((scope.row.count - scope.row.sale) / scope.row.count) *
                       100
                 "
-                :color="penterColor(scope.row.count,scope.row.sale)"
+                :color="penterColor(scope.row.count, scope.row.sale)"
               ></el-progress>
             </div>
           </template>
@@ -68,13 +68,15 @@
               size="mini"
               icon="el-icon-edit"
               @click="toEdit(scope.row.goodid)"
-            >修改库存</el-button>
+              >修改库存</el-button
+            >
             <el-button
               type="danger"
               size="mini"
               @click="clearStock(scope.row.goodid)"
               icon="el-icon-delete"
-            >清空库存</el-button>
+              >清空库存</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -82,9 +84,14 @@
     <!-- 修改库存 -->
     <el-dialog title="修改库存" :visible.sync="dialogVisible" width="30%">
       <div class="change">
-        <span>{{nowname}}</span>
-        <span>目前个数：{{nowcount}}</span>
-        <el-input-number v-model="nowcount" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+        <span>{{ nowname }}</span>
+        <span>目前个数：{{ nowcount }}</span>
+        <el-input-number
+          v-model="nowcount"
+          @change="handleChange"
+          :min="1"
+          label="描述文字"
+        ></el-input-number>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -106,11 +113,11 @@ export default {
       nowname: '',
       nowcount: 50,
       beforEdit: 0,
-      loading: true
+      loading: true,
     }
   },
   computed: {
-    ...mapState({ countMsg: state => state.goods.countMsg })
+    ...mapState({ countMsg: state => state.goods.countMsg }),
   },
   async mounted() {
     this.getAllCount()
@@ -128,17 +135,11 @@ export default {
         .then(_ => {
           this.$api.good.clearStock(id).then(res => {
             if ((res.data.code = 1)) {
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              })
+              this.$swal('哟吼~', '删除成功~', 'success')
               this.getAllCount()
               return
             }
-            this.$message({
-              message: '清空失败~',
-              type: 'warning'
-            })
+            this.$swal('哎哟~', '删除失败~', 'warning')
           })
         })
         .catch(_ => {})
@@ -185,26 +186,15 @@ export default {
           this.nowcount
         )
         if (res.data.code === 1) {
-          this.$message({
-            showClose: true,
-            message: '更新成功',
-            type: 'success'
-          })
+          this.$swal('哟吼~', '更新成功~', 'success')
           this.dialogVisible = false
           this.getAllCount()
           return
         }
-        this.$message({
-          message: '更新失败~',
-          type: 'warning'
-        })
+        this.$swal('哎哟~', '更新失败~', 'warning')
         return
       }
-      this.$message({
-        showClose: true,
-        message: '未作出修改',
-        type: 'warning'
-      })
+      this.$swal('哎哟~', '未作出修改~', 'warning')
       this.dialogVisible = false
     },
     loadFun() {
@@ -215,8 +205,8 @@ export default {
           clearInterval(interval)
         }
       }, 1000)
-    }
-  }
+    },
+  },
 }
 </script>
 
