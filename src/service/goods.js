@@ -25,4 +25,7 @@ export default {
       price: params4,
     })
   },
+  async getSomeGood(params) {
+    return await axios.post('/api/admin/order/getSomeGood', params)
+  },
 }

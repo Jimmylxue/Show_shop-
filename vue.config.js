@@ -5,17 +5,18 @@ function resolve(dir) {
 
 module.exports = {
   lintOnSave: false,
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     config.resolve.alias.set('@$', resolve('src'))
   },
   publicPath: '/',
   devServer: {
     port: 7070,
+    host: '127.0.0.1',
     proxy: {
       '/api': {
-        target: 'http://localhost:666',
+        target: 'http://127.0.0.1:666',
         changeOrigin: true,
-        ws: true,
+        // ws: true,
         secure: true,
         pathRewrite: {
           '^/api': '/',

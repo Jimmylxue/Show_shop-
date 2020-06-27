@@ -19,47 +19,41 @@
           <template slot-scope="scope">
             <el-form label-position="left" block class="demo-table-expand">
               <el-form-item label="买家昵称">
-                <span>{{ scope.row.person }}</span>
+                <span>{{ scope.row.buyname }}</span>
+              </el-form-item>
+              <el-form-item label="收件人">
+                <span>{{ scope.row.username }}</span>
               </el-form-item>
               <el-form-item label="联系电话">
                 <span>{{ scope.row.phone }}</span>
               </el-form-item>
-              <el-form-item label="商品名称">
-                <span>{{ scope.row.goodname }}</span>
-              </el-form-item>
               <el-form-item label="购买数量">
-                <span>{{ scope.row.buycount }} 件</span>
+                <span>{{ scope.row.goodcount }} 件</span>
               </el-form-item>
               <el-form-item label="收获地址">
-                <span>{{ scope.row.address }}</span>
+                <span>{{ scope.row.province }}{{scope.row.city}}{{scope.row.area}}{{scope.row.detail}}</span>
               </el-form-item>
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="订单编号" prop="id"></el-table-column>
-        <el-table-column label="订单价格" prop="money"></el-table-column>
-        <el-table-column label="是否付款" prop="payState">
+        <el-table-column label="订单编号" prop="orderid"></el-table-column>
+        <el-table-column label="订单价格" prop="orderprice"></el-table-column>
+        <el-table-column label="是否付款" prop="paystates">
           <template slot-scope="scope">
             <!-- scopr是一个对象 也就是当前遍历的这个item行的对象 -->
-            <el-tag type="success" v-show="scope.row.payState === 1"
-              >已付款</el-tag
-            >
-            <el-tag type="danger" v-show="scope.row.payState === 0"
-              >未付款</el-tag
-            >
+            <el-tag type="success" v-show="scope.row.paystatus === 1">已付款</el-tag>
+            <el-tag type="danger" v-show="scope.row.paystatus === 0">未付款</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="是否发货" prop="send">
           <template slot-scope="scope">
-            <el-tag type="success" v-show="scope.row.sendState === 1"
-              >已发货</el-tag
-            >
-            <el-tag type="danger" v-show="scope.row.sendState === 0"
-              >未发货</el-tag
-            >
+            <el-tag type="success" v-show="scope.row.send === 1">已发货</el-tag>
+            <el-tag type="danger" v-show="scope.row.send === 0">未发货</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="下单时间" prop="payTime"></el-table-column>
+        <el-table-column label="下单时间" prop="payTime">
+          <template slot-scope="scope">{{scope.row.createtime}}</template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -67,15 +61,13 @@
               @click="tochange(scope.row.id)"
               size="mini"
               icon="el-icon-edit"
-              >修改地址</el-button
-            >
+            >修改地址</el-button>
             <el-button
               type="success"
               size="mini"
-              @click="tosend(scope.row.id)"
+              @click="tosend(scope.row)"
               icon="el-icon-location"
-              >发货</el-button
-            >
+            >发货</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -112,31 +104,29 @@
         <div class="Detail">
           <h3>请按照下列商品列表配货</h3>
           <p>订单清单</p>
-          <div class="msgcontain">
+          <div class="msgcontain" v-for="(item,index) in good" :key="index">
             <div>
-              <img :src="select.goodimg" width="200px" height="200px" alt />
+              <img :src="item.goodimg" width="200px" height="200px" alt />
             </div>
             <div>
-              <p>{{ select.goodname }}</p>
-              <p>{{ select.gooddesc }}</p>
-              <p>{{ select.capacity }}</p>
+              <p>{{ item.goodname }}</p>
+              <p>{{ item.gooddesc }}</p>
+              <p>{{ item.capacity }}</p>
             </div>
             <div>
-              <span>{{ select.money }}</span>
-              ×{{ select.buycount }}
+              <span>{{ item.price }}</span>
+              ×{{ select.goodcount }}
             </div>
           </div>
           <div class="usermsg">
             <h3>请按照下列信息发货</h3>
-            <p>地址:{{ select.address }}</p>
-            <p>收货人:{{ select.person }}</p>
+            <p>地址:{{ select.province }}{{select.city}}{{select.area}}{{select.detail}}</p>
+            <p>收货人:{{ select.username }}</p>
             <p>电话号码:{{ select.phone }}</p>
           </div>
         </div>
         <span slot="footer" class="dialog-footer send">
-          <el-button type="primary" @click="send" plain
-            >确认发货并提醒用户</el-button
-          >
+          <el-button type="primary" @click="send" plain>确认发货并提醒用户</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -148,6 +138,7 @@ export default {
   data() {
     return {
       orderList: [],
+      good: [],
       select: {},
       // 编辑flag
       dialogVisible: false,
@@ -156,13 +147,13 @@ export default {
       loading: true,
       rules: {
         person: [
-          { required: true, message: '收件人不能为空', trigger: 'blur' },
+          { required: true, message: '收件人不能为空', trigger: 'blur' }
         ],
         address: [{ required: true, message: '地址不能为空', trigger: 'blur' }],
         phone: [
-          { required: true, message: '请输入正确的手机号', trigger: 'blur' },
-        ],
-      },
+          { required: true, message: '请输入正确的手机号', trigger: 'blur' }
+        ]
+      }
     }
   },
   mounted() {
@@ -173,6 +164,7 @@ export default {
     async getList() {
       let res = await this.$api.order.getList()
       this.orderList = res.data
+      console.log(';lll', this.orderList)
     },
     handleClose() {
       this.$confirm('确认关闭？')
@@ -181,9 +173,20 @@ export default {
         })
         .catch(_ => {})
     },
-    tosend(id) {
+    async tosend(row) {
+      let goodid = row.goodid.split('-')
+      goodid.splice(0, 1)
+      console.log(goodid)
+      let res = await this.$api.good.getSomeGood({
+        ids: JSON.stringify(goodid)
+      })
+      this.good = res.data
+      // console.log(items)
+      console.log(this.good)
+      this.select = row
+      // this.detailstatus = true
       this.sendGood = true
-      this.select = this.orderList.filter(item => item.id === id)[0]
+      // this.select = this.orderList.filter(item => item.id === id)[0]
     },
     send() {
       this.sendGood = false
@@ -217,8 +220,8 @@ export default {
         }
         this.$swal('哎哟~', '信息不符~', 'warning')
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
