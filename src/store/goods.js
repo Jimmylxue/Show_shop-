@@ -19,11 +19,11 @@ export default {
   },
   actions: {
     async getGoods({ state, commit }) {
-      if (state.goodsMsg.length === 0) {
-        // 没有数据才获取 避免频繁的请求
-        let res = await (await gds.getGoods()).data
-        commit('pushGoodsMsg', res)
-      }
+      // if (state.goodsMsg.length === 0) {
+      // 没有数据才获取 避免频繁的请求
+      let res = await (await gds.getGoods()).data
+      commit('pushGoodsMsg', res)
+      // }
     },
     async addGood({ commit }, good) {
       let { code } = await (await gds.addGood(good)).data

@@ -20,14 +20,14 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="商品编号">
+                <span>{{ props.row.goodid }}</span>
+              </el-form-item>
               <el-form-item label="商品名称">
                 <span>{{ props.row.goodname }}</span>
               </el-form-item>
               <el-form-item label="邮费">
                 <span>{{ props.row.firight }}</span>
-              </el-form-item>
-              <el-form-item label="商品 ID">
-                <span>{{ props.row.goodid }}</span>
               </el-form-item>
               <el-form-item label="商品类型">
                 <span>{{ props.row.classify }}</span>
@@ -44,17 +44,34 @@
               <el-form-item label="商品价格">
                 <span>{{ props.row.price }}</span>
               </el-form-item>
-              <el-form-item label="商品图片">
-                <div>
-                  <img :src="props.row.goodimg" alt />
+              <el-form-item label="细节图片">
+                <div style="width:100%">
+                  <img
+                    v-for="(item,index) in props.row.imgs!==null?props.row.imgs.split('@'):''"
+                    :key="index"
+                    :src="item"
+                    width="250px"
+                    height="150px"
+                    alt
+                  />
                 </div>
               </el-form-item>
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="商品 ID" prop="goodid"></el-table-column>
-        <el-table-column label="商品名称" prop="goodname"></el-table-column>
+        <el-table-column label="图片" width="300" prop="goodid">
+          <template slot-scope="scope">
+            <img :src="scope.row.goodimg" width="50px" height="50px" alt />
+          </template>
+        </el-table-column>
+        <el-table-column label="商品名称" width="400" prop="goodname"></el-table-column>
         <el-table-column label="描述" prop="gooddesc"></el-table-column>
+        <el-table-column label="操作" width="300" align="center" prop="gooddesc">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="edit(scope.row.goodid)" type="warning">修改</el-button>
+            <el-button size="mini" @click="del(scope.row.goodid)" type="danger">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
   </div>
@@ -70,6 +87,20 @@ export default {
       msg: '小米'
     }
   },
+  computed: {
+    ...mapState({ goodsMsg: state => state.goods.goodsMsg })
+  },
+  mounted() {
+    this.loadfun()
+    this.getGood()
+  },
+  watch: {
+    msg(newval) {
+      if (newval === '') {
+        this.goods = this.$store.state.goods.goodsMsg
+      }
+    }
+  },
   methods: {
     ...mapActions(['getGoods']),
     // 获取页面数据
@@ -77,6 +108,7 @@ export default {
       this.getGoods()
       setTimeout(() => {
         this.goods = this.$store.state.goods.goodsMsg
+        console.log(this.goods)
       }, 1000)
     },
     // 根据搜索框查询数据
@@ -93,20 +125,33 @@ export default {
           clearInterval(interval)
         }
       }, 500)
-    }
-  },
-  computed: {
-    ...mapState({ goodsMsg: state => state.goods.goodsMsg })
-  },
-  mounted() {
-    this.loadfun()
-    this.getGood()
-  },
-  watch: {
-    msg(newval) {
-      if (newval === '') {
-        this.goods = this.$store.state.goods.goodsMsg
-      }
+    },
+    edit(id) {
+      this.$router.push(`/addGood?goodid=${id}`)
+    },
+    async del(id) {
+      this.$swal({
+        title: '您确定要删除这个商品信息？',
+        text: '删除后将无法恢复，请谨慎操作！',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dd6b55',
+        confirmButtonText: '是的,我要删除',
+        cancelButtonText: '容我三思',
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete.value) {
+          this.$api.good.delGood({ goodid: id }).then(res => {
+            if (res.data.code === 200) {
+              this.$swal('哟吼~', '删除成功~', 'success')
+              this.loadfun()
+              this.getGood()
+              return
+            }
+            this.$swal('哦吼~', '删除失败~', 'error')
+          })
+        }
+      })
     }
   }
 }

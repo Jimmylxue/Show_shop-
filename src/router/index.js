@@ -12,6 +12,8 @@ import stock from '../views/good/stock'
 import list from '../views/order/orderList'
 import classify from '../views/good/classify'
 import chat from '../views/chat/chat.vue'
+import test from '@/views/test.vue'
+import ui from '@/views/ui/ui.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +38,7 @@ const routes = [
       { path: '/list', component: list },
       { path: '/classify', component: classify },
       { path: '/chat', component: chat },
+      { path: '/print', component: ui },
     ],
   },
 ]

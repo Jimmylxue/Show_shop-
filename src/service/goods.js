@@ -28,4 +28,14 @@ export default {
   async getSomeGood(params) {
     return await axios.post('/api/admin/order/getSomeGood', params)
   },
+  async getOneGood(params) {
+    return await axios.post('/api/admin/good/getOneGood', params)
+  },
+  async delGood(params) {
+    return await axios.post('/api/admin/good/delGood', params)
+  },
+
+  async editGood(params) {
+    return await axios.post('/api/admin/good/editGood', params)
+  },
 }

@@ -26,57 +26,6 @@
               <p>还有货吗老板?</p>
             </div>
           </div>
-          <!-- <div class="item">
-            <div>
-              <img
-                src="@/assets/img/portrait.jpg"
-                width="100%"
-                height="100%"
-                alt
-              />
-            </div>
-            <div>
-              <p>
-                <span>要口饭吃</span>
-                <small>19:04</small>
-              </p>
-              <p>还有货吗老板?</p>
-            </div>
-          </div>
-          <div class="item">
-            <div>
-              <img
-                src="@/assets/img/portrait.jpg"
-                width="100%"
-                height="100%"
-                alt
-              />
-            </div>
-            <div>
-              <p>
-                <span>要口饭吃</span>
-                <small>19:04</small>
-              </p>
-              <p>还有货吗老板?</p>
-            </div>
-          </div>
-          <div class="item">
-            <div>
-              <img
-                src="@/assets/img/portrait.jpg"
-                width="100%"
-                height="100%"
-                alt
-              />
-            </div>
-            <div>
-              <p>
-                <span>要口饭吃</span>
-                <small>19:04</small>
-              </p>
-              <p>还有货吗老板?</p>
-            </div>
-          </div> -->
         </div>
       </div>
       <div class="form">
@@ -93,16 +42,9 @@
             >
               <div class="item">
                 <div class="headers">
-                  <img
-                    src="@/assets/img/portrait.jpg"
-                    width="100%"
-                    height="100%"
-                    alt
-                  />
+                  <img src="@/assets/img/portrait.jpg" width="100%" height="100%" alt />
                 </div>
-                <div class="form">
-                  {{ item.text }}
-                </div>
+                <div class="form">{{ item.text }}</div>
               </div>
             </div>
           </div>
@@ -112,14 +54,7 @@
             <i class="el-icon-eleme"></i>
             <i class="el-icon-folder-opened"></i>
           </p>
-          <textarea
-            v-model="sendText"
-            style="resize:none;"
-            name
-            id
-            cols="30"
-            rows="10"
-          ></textarea>
+          <textarea v-model="sendText" style="resize:none;" name id cols="30" rows="10"></textarea>
           <p class="send">
             <button @click="send">发送</button>
           </p>
@@ -139,11 +74,11 @@ export default {
         {
           text:
             'Hi，福州豪豪，你好，小蜜在此等主人很久了。享受便捷服务，您可手机淘宝扫一扫右侧二维码，直达手机版小蜜体验更佳哦！Hi，福州豪豪，你好，小蜜在此等主人很久了。享受便捷服务，您可手机淘宝扫一扫右侧二维码，直达手机版小蜜体验更佳哦！Hi，福州豪豪，你好，小蜜在此等主人很久了。享受便捷服务，您可手机淘宝扫一扫右侧二维码，直达手机版小蜜体验更佳哦！',
-          flag: 0,
+          flag: 0
         },
-        { text: 'Hello World', flag: 1 },
+        { text: 'Hello World', flag: 1 }
       ],
-      userList: [],
+      userList: []
     }
   },
   mounted() {
@@ -169,8 +104,8 @@ export default {
       this.msg.push(obj)
       console.log(obj.aaa)
       this.sendText = ''
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -45,7 +45,7 @@
             <div class="cont">
               <span>
                 {{
-                  scope.row.count === 0 ? 0 : scope.row.count - scope.row.sale
+                scope.row.count === 0 ? 0 : scope.row.count - scope.row.sale
                 }}
               </span>
               <el-progress
@@ -68,15 +68,13 @@
               size="mini"
               icon="el-icon-edit"
               @click="toEdit(scope.row.goodid)"
-              >修改库存</el-button
-            >
+            >修改库存</el-button>
             <el-button
               type="danger"
               size="mini"
               @click="clearStock(scope.row.goodid)"
               icon="el-icon-delete"
-              >清空库存</el-button
-            >
+            >清空库存</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -86,12 +84,7 @@
       <div class="change">
         <span>{{ nowname }}</span>
         <span>目前个数：{{ nowcount }}</span>
-        <el-input-number
-          v-model="nowcount"
-          @change="handleChange"
-          :min="1"
-          label="描述文字"
-        ></el-input-number>
+        <el-input-number v-model="nowcount" @change="handleChange" :min="1" label="描述文字"></el-input-number>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -113,11 +106,11 @@ export default {
       nowname: '',
       nowcount: 50,
       beforEdit: 0,
-      loading: true,
+      loading: true
     }
   },
   computed: {
-    ...mapState({ countMsg: state => state.goods.countMsg }),
+    ...mapState({ countMsg: state => state.goods.countMsg })
   },
   async mounted() {
     this.getAllCount()
@@ -131,31 +124,27 @@ export default {
       this.stock = res
     },
     async clearStock(id) {
-      this.$confirm('此操作将清空改商品的库存，确定继续吗？')
-        .then(_ => {
+      this.$swal({
+        title: '您确定要清空这个商品库存？',
+        text: '删除后将无法恢复，请谨慎操作！',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dd6b55',
+        confirmButtonText: '是的,我要清空',
+        cancelButtonText: '容我三思',
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete.value) {
           this.$api.good.clearStock(id).then(res => {
             if ((res.data.code = 1)) {
-              this.$swal('哟吼~', '删除成功~', 'success')
+              this.$swal('哟吼~', '清空成功~', 'success')
               this.getAllCount()
               return
             }
-            this.$swal('哎哟~', '删除失败~', 'warning')
+            this.$swal('哎哟~', '清空失败~', 'warning')
           })
-        })
-        .catch(_ => {})
-
-      // let code = await (await this.$api.good.clearStock(id)).data.code
-      // if (code === 1) {
-      //   this.$message({
-      //     message: '删除成功',
-      //     type: 'success',
-      //   })
-      //   return
-      // }
-      // this.$message({
-      //   message: '清空失败~',
-      //   type: 'warning',
-      // })
+        }
+      })
     },
     handleChange() {},
     penterColor(count, sale) {
@@ -205,8 +194,8 @@ export default {
           clearInterval(interval)
         }
       }, 1000)
-    },
-  },
+    }
+  }
 }
 </script>
 
