@@ -204,6 +204,10 @@ export default {
       this.hasSelect.push(item)
     },
     useImg() {
+      if (this.hasSelect.length === 0) {
+        this.$swal('哦吼~', '请先选择图片~', 'error')
+        return
+      }
       this.$swal('哟吼~', '使用成功~', 'success')
       this.$emit('hasSelect', this.hasSelect)
 
