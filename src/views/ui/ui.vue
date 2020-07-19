@@ -12,6 +12,12 @@
       <el-tab-pane label="轮播图">
         <slider></slider>
       </el-tab-pane>
+      <el-tab-pane label="首页搜索栏">
+        <searchBtn></searchBtn>
+      </el-tab-pane>
+      <el-tab-pane label="首页模块">
+        <function-mode></function-mode>
+      </el-tab-pane>
       <el-tab-pane label="广告图片">角色管理</el-tab-pane>
       <!-- <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane> -->
     </el-tabs>
@@ -19,10 +25,14 @@
 </template>
 
 <script>
+import searchBtn from '@/components/UI/searchBtn/searchBtn.vue'
 import slider from '@/components/UI/slider/slider.vue'
+import functionMode from '@/components/UI/functionMode/functionMode.vue'
 export default {
   components: {
-    slider
+    slider,
+    searchBtn,
+    functionMode
   },
   data() {
     return {
