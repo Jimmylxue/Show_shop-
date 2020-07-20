@@ -10,4 +10,7 @@ export default {
   async addFunction(params) {
     return await axios.post('/api/ui/function/add', params)
   },
+  async delFunction(params) {
+    return await axios.post('/api/ui/function/del', params)
+  },
 }
