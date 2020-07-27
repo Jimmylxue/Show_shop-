@@ -5,7 +5,12 @@
         <img class="header" src="../assets/logo.png" alt />
         <span>Show_Shop后台管理系统</span>
       </div>
-      <img class="portrait" @click="$router.push('/admin')" src="../assets/img/portrait.jpg" alt />
+      <img
+        class="portrait"
+        @click="$router.push('/admin')"
+        src="../assets/img/portrait.jpg"
+        alt
+      />
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
 
@@ -31,7 +36,11 @@
         >
           <!-- router是elementui提供的作为激活vue-router的模式 -->
           <!-- 1级导航区 -->
-          <el-submenu :index="item.data.id + ''" v-for="item in menuList" :key="item.data.id">
+          <el-submenu
+            :index="item.data.id + ''"
+            v-for="item in menuList"
+            :key="item.data.id"
+          >
             <template slot="title">
               <i class="el-icon-s-custom"></i>
               <span>{{ item.data.authName }}</span>
@@ -69,10 +78,10 @@ export default {
               {
                 id: 1001,
                 authName: '用户列表',
-                path: '/user'
-              }
-            ]
-          }
+                path: '/user',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -82,15 +91,15 @@ export default {
               {
                 id: 2001,
                 authName: '角色列表',
-                path: '/roles'
+                path: '/roles',
               },
               {
                 id: 2002,
                 authName: '权限列表',
-                path: '/right'
-              }
-            ]
-          }
+                path: '/right',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -100,25 +109,25 @@ export default {
               {
                 id: 3001,
                 authName: '商品列表',
-                path: '/goods'
+                path: '/goods',
               },
               {
                 id: 3002,
                 authName: '库存管理',
-                path: '/stock'
+                path: '/stock',
               },
               {
                 id: 3003,
                 authName: '商品操作',
-                path: '/addGood'
+                path: '/addGood',
               },
               {
                 id: 3004,
                 authName: '商品类别管理',
-                path: '/classify'
-              }
-            ]
-          }
+                path: '/classify',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -128,10 +137,10 @@ export default {
               {
                 id: 4001,
                 authName: '订单列表',
-                path: '/list'
-              }
-            ]
-          }
+                path: '/list',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -141,10 +150,10 @@ export default {
               {
                 id: 5001,
                 authName: '数据列表',
-                path: 'data'
-              }
-            ]
-          }
+                path: 'data',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -154,10 +163,10 @@ export default {
               {
                 id: 5001,
                 authName: '广告列表',
-                path: 'data'
-              }
-            ]
-          }
+                path: 'data',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -167,10 +176,10 @@ export default {
               {
                 id: 7001,
                 authName: '商品评论',
-                path: 'data'
-              }
-            ]
-          }
+                path: 'data',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -180,10 +189,10 @@ export default {
               {
                 id: 8001,
                 authName: '进入聊天',
-                path: '/chat'
-              }
-            ]
-          }
+                path: '/chat',
+              },
+            ],
+          },
         },
         {
           data: {
@@ -193,13 +202,26 @@ export default {
               {
                 id: 9001,
                 authName: '系统界面',
-                path: '/print'
-              }
-            ]
-          }
-        }
+                path: '/print',
+              },
+            ],
+          },
+        },
+        {
+          data: {
+            id: 1001,
+            authName: '视频管理',
+            children: [
+              {
+                id: 10001,
+                authName: '首页视频',
+                path: '/video',
+              },
+            ],
+          },
+        },
       ],
-      asideTroggle: false
+      asideTroggle: false,
     }
   },
   methods: {
@@ -212,7 +234,7 @@ export default {
         // buttons: true,
         buttons: ['Oh noez!', 'Aww yiss!'],
         showCancelButton: true,
-        dangerMode: true
+        dangerMode: true,
       }).then(willDelete => {
         if (willDelete) {
           this.$swal('哟吼~', '退出成功~', 'success')
@@ -226,8 +248,8 @@ export default {
     },
     troggle() {
       this.asideTroggle = !this.asideTroggle
-    }
-  }
+    },
+  },
 }
 </script>
 

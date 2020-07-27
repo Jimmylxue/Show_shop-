@@ -13,8 +13,13 @@
           </div>
           <i class="el-icon-plus"></i>
         </div>
-        <div v-for="(item, index) in userList" :key="index" class="items">
-          <div class="item">
+        <div
+          v-for="(item, index) in userList"
+          :key="index"
+          :class="nowSelcct==index+1?'ischeck':''"
+          class="items"
+        >
+          <div class="item" @click="chatObj(item,index)">
             <div>
               <img :src="item.header" width="100%" height="100%" alt />
             </div>
@@ -29,7 +34,8 @@
         </div>
       </div>
       <div class="form">
-        <div class="title">
+        <chat :user="userMsg"></chat>
+        <!-- <div class="title">
           <span>要口饭吃</span>
         </div>
         <div class="content">
@@ -58,52 +64,53 @@
           <p class="send">
             <button @click="send">发送</button>
           </p>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import chat from '@/components/chat/chatMsg.vue'
 export default {
+  components: {
+    chat
+  },
   data() {
     return {
-      sendText: 'hello',
-      id: '',
-      msg: [
-        {
-          text:
-            'Hi，福州豪豪，你好，小蜜在此等主人很久了。享受便捷服务，您可手机淘宝扫一扫右侧二维码，直达手机版小蜜体验更佳哦！Hi，福州豪豪，你好，小蜜在此等主人很久了。享受便捷服务，您可手机淘宝扫一扫右侧二维码，直达手机版小蜜体验更佳哦！Hi，福州豪豪，你好，小蜜在此等主人很久了。享受便捷服务，您可手机淘宝扫一扫右侧二维码，直达手机版小蜜体验更佳哦！',
-          flag: 0
-        },
-        { text: 'Hello World', flag: 1 }
-      ],
-      userList: []
+      userList: [],
+      obj: '',
+      userMsg: {},
+      nowSelcct: 1,
+      chat_record: []
     }
   },
   mounted() {
-    // this.$sockets.on('connection')
-    this.sockets.listener.subscribe('ids', data => {
-      this.id = data
-      this.$socket.emit('backstage', this.id)
-    })
-    this.sockets.listener.subscribe('toback', data => {
-      this.msg.push(data)
-    })
     this.getUserList()
   },
   methods: {
     async getUserList() {
       let res = await this.$api.user.getUser()
       this.userList = res.data
+      // this.user = this.userList[0]
+      this.userMsg = this.userList[0]
     },
-    send() {
-      let id = this.$socket.id
-      let obj = { userid: '173117031', text: this.sendText }
-      this.$socket.emit('tousers', obj)
-      this.msg.push(obj)
-      console.log(obj.aaa)
-      this.sendText = ''
+    async chatObj(item, index) {
+      this.nowSelcct = index + 1
+      this.obj = item.uname
+      this.userMsg = item
+      console.log(this.obj)
+      /*
+        判断聊天数据表有没有改用户 没有加添加一个用户
+       */
+
+      let params = {}
+      params.userid = item.userid
+      let res = await this.$api.chat.getChat(params)
+      if (res.data == 200) {
+        this.chat_record = res.data.result
+      }
+      // console.log('xxxx', params)
     }
   }
 }
@@ -170,7 +177,7 @@ export default {
       .item {
         width: 100%;
         height: 60px;
-        background-color: rgb(223, 222, 223);
+        // background-color: rgb(223, 222, 223);
         display: flex;
         align-items: center;
         &:hover {
@@ -318,5 +325,8 @@ export default {
       }
     }
   }
+}
+.ischeck {
+  background-color: rgb(197, 198, 198) !important;
 }
 </style>

@@ -85,9 +85,16 @@ export default {
       /* elementui提供了resetFields()方法 能够让表单数据清空 */
       this.$refs.loginFormRef.resetFields()
     },
-    login() {
-      this.$swal('哟吼~', '登录成功~', 'success')
-      this.$router.push('/home')
+    async login() {
+      let params = this.userinfo
+      let res = await this.$api.log.login(params)
+      if (res.data.code == 200) {
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('userMsg', JSON.stringify(res.data.result))
+        this.$swal('哟吼~', '登录成功~', 'success')
+
+        this.$router.push('/home')
+      }
     },
     to() {
       this.$router.push('/register')
@@ -125,9 +132,12 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {
-    width: 130px;
-    height: 130px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     background-color: #eee;
   }

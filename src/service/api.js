@@ -5,6 +5,10 @@ import imgs from './imgLoad'
 import slider from './ui/slider'
 import navBtbs from './ui/navBtns'
 import functionsMode from './ui/functionMode'
+import chat from './chat_record'
+import log from './log'
+import video from './video'
+
 export default {
   good,
   order,
@@ -13,4 +17,7 @@ export default {
   slider,
   navBtbs,
   functionsMode,
+  chat,
+  log,
+  video,
 }

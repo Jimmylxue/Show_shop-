@@ -5,9 +5,11 @@ import store from './store'
 
 import ElementUI from 'element-ui'
 import sweetalert from './plugins/swrrtalert2'
+import Video from 'video.js'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/global.css'
+import 'video.js/dist/video-js.css'
 
 import 'font-awesome/css/font-awesome.css'
 import './assets/css/global.css'
@@ -26,6 +28,7 @@ import interceptors from './interceptors'
 
 import api from '@/service/api'
 Vue.prototype.$api = api
+Vue.prototype.$video = Video
 
 Vue.use(ElementUI)
 Vue.use(sweetalert)

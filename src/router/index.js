@@ -12,8 +12,8 @@ import stock from '../views/good/stock'
 import list from '../views/order/orderList'
 import classify from '../views/good/classify'
 import chat from '../views/chat/chat.vue'
-import test from '@/views/test.vue'
 import ui from '@/views/ui/ui.vue'
+import video from '@/views/video'
 
 Vue.use(VueRouter)
 
@@ -26,19 +26,21 @@ const routes = [
     component: home,
     redirect: '/main',
     children: [
-      { path: '/main', component: main },
-      { path: '/user', component: user },
-      { path: '/admin', component: admin },
-      { path: '/goods', component: allGood },
+      { path: '/main', meta: { auth: true }, component: main },
+      { path: '/user', meta: { auth: true }, component: user },
+      { path: '/admin', meta: { auth: true }, component: admin },
+      { path: '/goods', meta: { auth: true }, component: allGood },
       {
         path: '/addGood',
+        meta: { auth: true },
         component: addGood,
       },
-      { path: '/stock', component: stock },
-      { path: '/list', component: list },
-      { path: '/classify', component: classify },
-      { path: '/chat', component: chat },
-      { path: '/print', component: ui },
+      { path: '/stock', meta: { auth: true }, component: stock },
+      { path: '/list', meta: { auth: true }, component: list },
+      { path: '/classify', meta: { auth: true }, component: classify },
+      { path: '/chat', meta: { auth: true }, component: chat },
+      { path: '/print', meta: { auth: true }, component: ui },
+      { path: '/video', meta: { auth: true }, component: video },
     ],
   },
 ]
@@ -47,6 +49,22 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth) {
+    const token = localStorage.getItem('token')
+    if (token) {
+      next()
+    } else {
+      next({
+        path: '/login?redirect',
+        query: { redirect: to.path },
+      })
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
