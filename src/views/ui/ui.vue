@@ -18,6 +18,9 @@
       <el-tab-pane label="首页模块">
         <function-mode></function-mode>
       </el-tab-pane>
+      <el-tab-pane label="视频模块">
+        <myVideo></myVideo>
+      </el-tab-pane>
       <el-tab-pane label="广告图片">角色管理</el-tab-pane>
       <!-- <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane> -->
     </el-tabs>
@@ -25,6 +28,7 @@
 </template>
 
 <script>
+import myVideo from '@/components/UI/videoMode/myVideo.vue'
 import searchBtn from '@/components/UI/searchBtn/searchBtn.vue'
 import slider from '@/components/UI/slider/slider.vue'
 import functionMode from '@/components/UI/functionMode/functionMode.vue'
@@ -32,7 +36,8 @@ export default {
   components: {
     slider,
     searchBtn,
-    functionMode
+    functionMode,
+    myVideo
   },
   data() {
     return {

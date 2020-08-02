@@ -1,0 +1,56 @@
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+--
+-- Host: localhost    Database: show_shop
+-- ------------------------------------------------------
+-- Server version	5.7.17-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
+  `userphone` varchar(11) NOT NULL,
+  `userpsd` varchar(15) NOT NULL,
+  `uname` varchar(10) NOT NULL,
+  `email` varchar(35) DEFAULT NULL,
+  `role` varchar(10) DEFAULT '普通用户',
+  `header` varchar(150) NOT NULL DEFAULT '/header/default.png',
+  PRIMARY KEY (`userid`,`userphone`)
+) ENGINE=InnoDB AUTO_INCREMENT=173117038 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (173117031,'19905076109','yshzx171107.','Jimmy','1002661758@qq.com','普通用户','http://127.0.0.1:666/header/19905076109+1590479891076.jpeg'),(173117032,'12345678','12345678','12345678','123456785','普通用户','http://127.0.0.1:666/header/default.png'),(173117033,'12345678','12345678','12345678','12345678','普通用户','http://127.0.0.1:666/header/default.png'),(173117034,'19905076425','123456789','测试者1号',NULL,'普通用户','http://127.0.0.1:666/header/19905076425+1595430394648.png'),(173117036,'123456879','1234561','13543251','351231','53132415','15345'),(173117037,'1345','13512.','453123','453132','45613','78561');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-07-28 20:27:40
