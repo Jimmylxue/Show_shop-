@@ -16,30 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `functionmode`
+-- Table structure for table `video`
 --
 
-DROP TABLE IF EXISTS `functionmode`;
+DROP TABLE IF EXISTS `video`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `functionmode` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `functionName` varchar(45) DEFAULT NULL,
-  `img` text,
-  `url` varchar(45) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+CREATE TABLE `video` (
+  `videoId` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) NOT NULL,
+  `img` text NOT NULL,
+  `url` text NOT NULL,
+  PRIMARY KEY (`videoId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1020 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `functionmode`
+-- Dumping data for table `video`
 --
 
-LOCK TABLES `functionmode` WRITE;
-/*!40000 ALTER TABLE `functionmode` DISABLE KEYS */;
-INSERT INTO `functionmode` VALUES (1,'地铁','http://127.0.0.1:666/function/ditie.png',NULL,1),(2,'城市','http://127.0.0.1:666/function/city.png',NULL,1),(3,'天气','http://127.0.0.1:666/function/weather.png',NULL,1),(4,'数据库','http://127.0.0.1:666/function/database.png',NULL,1),(5,'论坛','http://127.0.0.1:666/function/luntan.png',NULL,1),(6,'热搜','http://127.0.0.1:666/function/hot.png',NULL,1);
-/*!40000 ALTER TABLE `functionmode` ENABLE KEYS */;
+LOCK TABLES `video` WRITE;
+/*!40000 ALTER TABLE `video` DISABLE KEYS */;
+INSERT INTO `video` VALUES (1001,'小米10 8K手机拍大片','http://127.0.0.1:666/goodimg/1596295742564.jpeg','https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e25d81c4922fca5ebe51877717ef9b76.mp4'),(1013,'小米电视5 创新背后的故事','http://127.0.0.1:666/videoImg/1596296410014.jpeg','https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/efea1979661bac0d1704d761e5e89ded.mp4'),(1018,'小米手环4 改变从今开始','http://127.0.0.1:666/videoImg/1596379821724.jpeg','https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f2661b967a319f358fabe822aed708e6.mp4'),(1019,'Redmi 10X系列发布会','http://127.0.0.1:666/videoImg/1596379970824.jpeg','https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11c70c96529b6e6938567ec1aa0910e0.mp4');
+/*!40000 ALTER TABLE `video` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-06  0:19:47
+-- Dump completed on 2020-08-06  0:19:46

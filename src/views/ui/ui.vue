@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-tabs :tab-position="tabPosition" style="margin-top:20px">
       <el-tab-pane label="登录背景界面">
-        <div class="loginBg"></div>
+        <loginBg></loginBg>
       </el-tab-pane>
       <el-tab-pane label="轮播图">
         <slider></slider>
@@ -28,12 +28,14 @@
 </template>
 
 <script>
+import loginBg from '@/components/UI/loginBg/loginBg.vue'
 import myVideo from '@/components/UI/videoMode/myVideo.vue'
 import searchBtn from '@/components/UI/searchBtn/searchBtn.vue'
 import slider from '@/components/UI/slider/slider.vue'
 import functionMode from '@/components/UI/functionMode/functionMode.vue'
 export default {
   components: {
+    loginBg,
     slider,
     searchBtn,
     functionMode,
@@ -52,11 +54,6 @@ export default {
   padding: 20px;
 }
 
-.loginBg {
-  width: 80%;
-  height: 200px;
-  background-color: skyblue;
-}
 // .lunbo {
 //   .show {
 //     width: 920px;

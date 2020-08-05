@@ -8,6 +8,7 @@ import functionsMode from './ui/functionMode'
 import chat from './chat_record'
 import log from './log'
 import video from './video'
+import loginBg from './ui/loginBg'
 
 export default {
   good,
@@ -20,4 +21,5 @@ export default {
   chat,
   log,
   video,
+  loginBg,
 }
