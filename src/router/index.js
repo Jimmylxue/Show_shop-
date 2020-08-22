@@ -14,6 +14,7 @@ import classify from '../views/good/classify'
 import chat from '../views/chat/chat.vue'
 import ui from '@/views/ui/ui.vue'
 import video from '@/views/video'
+import finance from '@/views/Finance'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,7 @@ const routes = [
       { path: '/chat', meta: { auth: true }, component: chat },
       { path: '/print', meta: { auth: true }, component: ui },
       { path: '/video', meta: { auth: true }, component: video },
+      { path: '/finance', meta: { auth: true }, component: finance },
     ],
   },
 ]

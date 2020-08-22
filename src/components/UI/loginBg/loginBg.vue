@@ -13,12 +13,12 @@
     <div class="other">
       <div
         v-for="(item,index) in bgList"
-        @click="wannaDel(item.id)"
+        @click="selThis(item.id)"
         :class="delFlags==2?'wannaDel':''"
         :key="index"
       >
         <img :src="item.background" alt />
-        <i v-if="delFlags == 2" class="el-icon-delete"></i>
+        <i @click.stop="wannaDel(item.id)" v-if="delFlags == 2" class="el-icon-delete"></i>
       </div>
     </div>
     <el-dialog title="添加背景图片" :visible.sync="dialogVisible" width="70%">
@@ -135,6 +135,38 @@ export default {
         return
       }
       this.$swal('哦吼~', res.data.result, 'warning')
+    },
+    selThis(id) {
+      if (this.delFlags == 2) {
+        return
+      } else {
+        this.$swal({
+          title: '您确定要切换这张照片当做背景图片吗？',
+          text: '设置后原来的效果可能会消失',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#67C23A',
+          confirmButtonText: '是的,我要切换',
+          cancelButtonText: '容我三思',
+          dangerMode: true
+        }).then(willDelete => {
+          if (willDelete.value) {
+            let params = {}
+            params.id = id
+            this.changeBg(params)
+          }
+        })
+      }
+      // console.log(id)
+    },
+    async changeBg(params) {
+      let res = await this.$api.loginBg.changeBg(params)
+      if (res.data.code == 200) {
+        this.$swal('哟吼~', '背景图片切换成功~', 'success')
+        this.getBgList()
+      } else {
+        this.$swal('哦吼~', '开小差了，请稍后重试~', 'warning')
+      }
     }
   }
 }

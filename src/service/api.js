@@ -9,6 +9,7 @@ import chat from './chat_record'
 import log from './log'
 import video from './video'
 import loginBg from './ui/loginBg'
+import allMsg from './allMsg'
 
 export default {
   good,
@@ -22,4 +23,5 @@ export default {
   log,
   video,
   loginBg,
+  allMsg,
 }

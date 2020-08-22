@@ -10,4 +10,7 @@ export default {
   async delLoginBg(params) {
     return await axios.post('/api/ui/loginBg/del', params)
   },
+  async changeBg(params) {
+    return await axios.post('/api/ui/loginBg/update', params)
+  },
 }
