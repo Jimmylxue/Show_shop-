@@ -107,6 +107,7 @@
 import Chart from 'chart.js'
 export default {
   data() {
+    // data中的数据最好不要嵌套太多层
     return {
       goodName: [
         '小米10',
